@@ -120,7 +120,7 @@ func main() {
 		cachePackageGauge.WithLabelValues(repoName).Set(totalPackageCount)
 	}
 
-	if config.PurgeFilesAfter != 0 {
+	if config.PurgeFilesAfter != 0 || config.KeepFiles != 0 {
 		cleanupTicker := setupPurgeStaleFilesRoutine()
 		defer cleanupTicker.Stop()
 	}

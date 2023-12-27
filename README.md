@@ -88,6 +88,7 @@ The server configuration is located at `/etc/pacoloco.yaml`. Here is an example 
 port: 9129
 cache_dir: /var/cache/pacoloco
 purge_files_after: 360000 # 360000 seconds or 100 hours, 0 to disable
+keep_files: 0 # keep at least one version of a package, 0 to disable
 download_timeout: 3600 # download will timeout after 3600 seconds
 repos:
   archlinux:
@@ -111,6 +112,7 @@ prefetch: # optional section, add it if you want to enable prefetching
 
 * `cache_dir` is the cache directory, this location needs to read/writable by the server process.
 * `purge_files_after` specifies inactivity duration (in seconds) after which the file should be removed from the cache. This functionality uses unix "AccessTime" field to find out inactive files. Default value is `0` that means never run the purging.
+* `keep_files` specifies how many versions of a package should be kept, regardless of the `purge_files_after` setting. Default value is `0` which disables this feature.
 * `port` is the server port.
 * `download_timeout` is a timeout (in seconds) for internet->cache downloads. If a remote server gets slow and file download takes longer than this will be terminated. Default value is `0` that means no timeout.
 * `repos` is a list of repositories to mirror. Each repo needs `name` and url of its Arch mirrors. Note that url can be specified either with `url` or `urls` properties, one and only one can be used for each repo configuration.

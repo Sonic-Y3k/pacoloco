@@ -15,6 +15,7 @@ func TestLoadConfig(t *testing.T) {
 port: 9129
 cache_dir: ` + temp + `
 purge_files_after: 2592000 # 3600 * 24 * 30days
+keep_files: 0
 download_timeout: 200 # 200 seconds
 repos:
   archlinux:
@@ -33,6 +34,7 @@ func TestLoadConfigWithPrefetch(t *testing.T) {
 	got := parseConfig([]byte(`
 cache_dir: /tmp
 purge_files_after: 2592000 # 3600 * 24 * 30days
+keep_files: 0
 prefetch:
   cron: 0 0 3 * * * *
   ttl_unaccessed_in_days: 5
@@ -51,6 +53,7 @@ repos:
 				URL: "http://mirrors.kernel.org/archlinux",
 			},
 		},
+		KeepFiles:       0,
 		PurgeFilesAfter: 2592000,
 		DownloadTimeout: 200,
 		Prefetch:        &RefreshPeriod{Cron: "0 0 3 * * * *", TTLUnaccessed: 5, TTLUnupdated: 200},
@@ -63,6 +66,7 @@ func TestPurgeFilesAfter(t *testing.T) {
 	got := parseConfig([]byte(`
 cache_dir: /tmp
 purge_files_after: 2592000 # 3600 * 24 * 30days
+keep_files: 0
 repos:
   archlinux:
     url: http://mirrors.kernel.org/archlinux
@@ -75,6 +79,7 @@ repos:
 				URL: "http://mirrors.kernel.org/archlinux",
 			},
 		},
+		KeepFiles:       0,
 		PurgeFilesAfter: 2592000,
 		DownloadTimeout: 0,
 		Prefetch:        nil,
@@ -99,6 +104,7 @@ repos:
 				URL: "http://mirrors.kernel.org/archlinux",
 			},
 		},
+		KeepFiles:       0,
 		PurgeFilesAfter: 0,
 		DownloadTimeout: 0,
 		Prefetch:        nil,
@@ -117,6 +123,7 @@ func TestLoadConfigWithMirrorlist(t *testing.T) {
 	got := parseConfig([]byte(`
 cache_dir: ` + temp + `
 purge_files_after: 2592000 # 3600 * 24 * 30days
+keep_files: 0
 prefetch:
   cron: 0 0 3 * * * *
   ttl_unaccessed_in_days: 5
@@ -135,6 +142,7 @@ repos:
 				Mirrorlist: tmpfile,
 			},
 		},
+		KeepFiles:       0,
 		PurgeFilesAfter: 2592000,
 		DownloadTimeout: 200,
 		Prefetch:        &RefreshPeriod{Cron: "0 0 3 * * * *", TTLUnaccessed: 5, TTLUnupdated: 200},

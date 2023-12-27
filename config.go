@@ -37,6 +37,7 @@ type Config struct {
 	Port            int              `yaml:"port"`
 	Repos           map[string]*Repo `yaml:"repos,omitempty"`
 	PurgeFilesAfter int              `yaml:"purge_files_after"`
+	KeepFiles       int              `yaml:"keep_files"`
 	DownloadTimeout int              `yaml:"download_timeout"`
 	Prefetch        *RefreshPeriod   `yaml:"prefetch"`
 	HttpProxy       string           `yaml:"http_proxy"`
@@ -83,6 +84,10 @@ func parseConfig(raw []byte) *Config {
 
 	if result.PurgeFilesAfter < 10*60 && result.PurgeFilesAfter != 0 {
 		log.Fatalf("'purge_files_after' period is too low (%v) please specify at least 10 minutes", result.PurgeFilesAfter)
+	}
+
+	if result.KeepFiles < 0 {
+		log.Fatalf("'keep_files' is too low (%v) please specifiy at least 0", result.KeepFiles)
 	}
 
 	if unix.Access(result.CacheDir, unix.R_OK|unix.W_OK) != nil {
